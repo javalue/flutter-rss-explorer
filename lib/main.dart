@@ -132,6 +132,14 @@ class _RssFeedScreenState extends State<RssFeedScreen> {
     return null;
   }
 
+  String _formatPubDate(DateTime? date) {
+    if (date == null) return '无时间';
+    final local = date.toLocal();
+    String two(int value) => value.toString().padLeft(2, '0');
+    return '${local.year}-${two(local.month)}-${two(local.day)} '
+        '${two(local.hour)}:${two(local.minute)}';
+  }
+
   void _openWebview(BuildContext context, String url, String title) {
     Navigator.of(context).push(PageRouteBuilder(
       pageBuilder: (_, __, ___) => WebViewPage(url: url, title: title),
@@ -268,7 +276,7 @@ class _RssFeedScreenState extends State<RssFeedScreen> {
                                 ),
                               ),
                               Text(
-                                item.pubDate?.toString() ?? '无时间',
+                                _formatPubDate(item.pubDate),
                                 style: const TextStyle(
                                     color: Colors.black54, fontSize: 13),
                               ),
